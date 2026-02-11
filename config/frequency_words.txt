@@ -1,258 +1,267 @@
 # ═══════════════════════════════════════════════════════════════
-#                    TrendRadar 频率词配置文件
+#                    TrendRadar Cấu hình từ khóa tần suất
 #                         Version: 1.1.0
 # ═══════════════════════════════════════════════════════════════
 
-# 可视化配置编辑器地址: https://sansan0.github.io/TrendRadar/
+# Địa chỉ trình chỉnh sửa cấu hình trực quan: https://sansan0.github.io/TrendRadar/
 #
-# 凡是左侧有 # 的都是仅供阅读的说明性文字
+# Bất kỳ dòng nào có dấu # ở bên trái đều là văn bản giải thích chỉ để đọc
 #
-# 这个文件用来设置你想关注的新闻关键词。
-# 系统会自动抓取包含这些关键词的热榜新闻推送给你。
+# Tệp này được sử dụng để thiết lập các từ khóa tin tức mà bạn muốn theo dõi.
+# Hệ thống sẽ tự động thu thập các tin tức thịnh hành chứa các từ khóa này và đẩy cho bạn.
 #
-# 文件分为两个区域：
-#   [GLOBAL_FILTER]  - 全局过滤区：排除不想看的内容
-#   [WORD_GROUPS]    - 词组定义区：设置想关注的关键词
+# Tệp được chia thành hai khu vực:
+#   [GLOBAL_FILTER]  - Khu vực lọc toàn cục: loại trừ nội dung không muốn xem
+#   [WORD_GROUPS]    - Khu vực định nghĩa nhóm từ: thiết lập các từ khóa muốn theo dõi
 #
 # ═══════════════════════════════════════════════════════════════
 
 
 # ───────────────────────────────────────────────────────────────
-#                        全局过滤区
+#                        Khu vực lọc toàn cục
 # ───────────────────────────────────────────────────────────────
-# 在这里写入你不想看到的词，每行一个。
-# 包含这些词的新闻会被自动排除，不会出现在推送中。
+# Viết các từ bạn không muốn xem ở đây, mỗi từ một dòng.
+# Tin tức chứa các từ này sẽ tự động bị loại trừ và không xuất hiện trong thông báo đẩy.
 #
-# 使用方法：
-#   震惊              直接写词，包含"震惊"的新闻会被过滤
-#   /赌博|博彩/       用 /.../ 包裹可以匹配多个词（用 | 分隔）
+# Cách sử dụng:
+#   sốc               Viết trực tiếp từ, tin tức chứa "sốc" sẽ bị lọc
+#   /cờ bạc|cá độ/    Dùng /.../ để khớp nhiều từ (phân cách bằng |)
 
 [GLOBAL_FILTER]
-# 过滤标题党
-震惊
+# Lọc tiêu đề giật gân
+Sốc
 
 
 
 # ───────────────────────────────────────────────────────────────
-#                        词组定义区
+#                        Khu vực định nghĩa nhóm từ
 # ───────────────────────────────────────────────────────────────
-# 在这里写入你想关注的关键词。
-# 每个词组用空行分隔，同一词组内的关键词是"或"的关系。
+# Viết các từ khóa bạn muốn theo dõi ở đây.
+# Các nhóm từ được phân cách bằng dòng trống, các từ khóa trong cùng một nhóm có quan hệ "HOẶC".
 #
 # ┌─────────────────────────────────────────────────────────────┐
-# │                      语法总览（快速参考）                      │
+# │                      Tổng quan cú pháp (Tham khảo nhanh)     │
 # └─────────────────────────────────────────────────────────────┘
 #
-# 关键词语法：
-#   关键词            普通关键词，标题包含即匹配
-#   /正则/            正则表达式匹配（自动忽略大小写）
-#   关键词 => 别名    给关键词指定显示别名
-#   [组别名]          词组第一行，给整组指定别名
-#   +关键词           必须词，所有必须词都要匹配才算匹配
-#   !关键词           过滤词，匹配则排除该条新闻（仅限当前词组）
-#   @数字             限制该词组最多显示多少条
+# Cú pháp từ khóa:
+#   từ_khóa           Từ khóa thông thường, khớp nếu tiêu đề chứa từ này
+#   /regex/           Khớp biểu thức chính quy (tự động bỏ qua chữ hoa/thường)
+#   từ_khóa => alias  Chỉ định tên hiển thị (alias) cho từ khóa
+#   [tên_nhóm]        Dòng đầu tiên của nhóm từ, chỉ định tên hiển thị cho cả nhóm
+#   +từ_khóa          Từ bắt buộc, tất cả các từ bắt buộc phải khớp mới được tính là khớp
+#   !từ_khóa          Từ loại trừ, nếu khớp sẽ loại bỏ tin tức đó (chỉ trong nhóm từ hiện tại)
+#   @số               Giới hạn nhóm từ này hiển thị tối đa bao nhiêu tin
 #
-# 显示名称优先级：
-#   1. 有组别名 → 显示组别名
-#   2. 没有组别名 → 显示各行别名拼接（用 " / " 连接）
-#   3. 没有别名 → 显示关键词本身
-#
-#
-# ┌─────────────────────────────────────────────────────────────┐
-# │                      基础用法（推荐新手）                      │
-# └─────────────────────────────────────────────────────────────┘
-#
-# 1. 最简单：直接写关键词
-#    ────────────────────
-#    华为
-#
-#    效果：匹配所有包含"华为"的新闻
-#
-#
-# 2. 多个关键词归为一组
-#    ────────────────────
-#    华为
-#    鸿蒙
-#    任正非
-#
-#    效果：匹配包含"华为"或"鸿蒙"或"任正非"的新闻，统一显示为"华为 / 鸿蒙 / 任正非"
-#
-#
-# 3. 给词组起个名字（推荐）
-#    ────────────────────
-#    [华为]
-#    华为
-#    鸿蒙
-#    任正非
-#
-#    效果：同上，但显示名称为"华为"（更简洁）
+# Thứ tự ưu tiên tên hiển thị:
+#   1. Có tên nhóm -> Hiển thị tên nhóm
+#   2. Không có tên nhóm -> Hiển thị các alias nối với nhau (dùng " / " để nối)
+#   3. Không có alias -> Hiển thị chính từ khóa đó
 #
 #
 # ┌─────────────────────────────────────────────────────────────┐
-# │                      进阶用法（可选）                         │
+# │                      Cách dùng cơ bản (Khuyên dùng cho người mới) │
 # └─────────────────────────────────────────────────────────────┘
 #
-# 4. 用正则表达式匹配多个词（一行搞定）
+# 1. Đơn giản nhất: Viết trực tiếp từ khóa
 #    ────────────────────
-#    /华为|鸿蒙|任正非/ => 华为
+#    Huawei
 #
-#    效果：匹配包含"华为"或"鸿蒙"或"任正非"的新闻，显示为"华为"
-#    说明：/.../ 里用 | 分隔多个词，=> 后面是显示名称
-#
-#    💡 不懂正则？问 AI：
-#       "帮我写一个正则表达式，匹配包含'华为'或'鸿蒙'或'任正非'的文本，
-#        格式要求：/正则/ => 显示名称"
+#    Hiệu quả: Khớp tất cả tin tức chứa "Huawei"
 #
 #
-# 5. 精确匹配英文单词（避免误匹配）
+# 2. Gom nhiều từ khóa vào một nhóm
+#    ────────────────────
+#    Huawei
+#    HarmonyOS
+#    Nhậm Chính Phi
+#
+#    Hiệu quả: Khớp tin tức chứa "Huawei" hoặc "HarmonyOS" hoặc "Nhậm Chính Phi", hiển thị chung là "Huawei / HarmonyOS / Nhậm Chính Phi"
+#
+#
+# 3. Đặt tên cho nhóm từ (Khuyên dùng)
+#    ────────────────────
+#    [Huawei]
+#    Huawei
+#    HarmonyOS
+#    Nhậm Chính Phi
+#
+#    Hiệu quả: Như trên, nhưng tên hiển thị là "Huawei" (gọn gàng hơn)
+#
+#
+# ┌─────────────────────────────────────────────────────────────┐
+# │                      Cách dùng nâng cao (Tùy chọn)            │
+# └─────────────────────────────────────────────────────────────┘
+#
+# 4. Dùng biểu thức chính quy để khớp nhiều từ (trong 1 dòng)
+#    ────────────────────
+#    /Huawei|HarmonyOS|Nhậm Chính Phi/ => Huawei
+#
+#    Hiệu quả: Khớp tin tức chứa "Huawei" hoặc "HarmonyOS" hoặc "Nhậm Chính Phi", hiển thị là "Huawei"
+#    Giải thích: Trong /.../ dùng | để phân cách nhiều từ, phía sau => là tên hiển thị
+#
+#    💡 Không hiểu regex? Hỏi AI:
+#       "Giúp tôi viết một biểu thức chính quy, khớp văn bản chứa 'Huawei' hoặc 'HarmonyOS' hoặc 'Nhậm Chính Phi',
+#        yêu cầu định dạng: /regex/ => tên hiển thị"
+#
+#
+# 5. Khớp chính xác từ tiếng Anh (tránh khớp sai)
 #    ────────────────────
 #    /\bAI\b/i => AI
 #
-#    说明：\b 表示单词边界，避免匹配到 "MAIL" 中的 "AI"
-#          /i 表示忽略大小写，"ai"、"AI"、"Ai" 都能匹配
+#    Giải thích: \b biểu thị ranh giới từ, tránh khớp "AI" trong "MAIL"
+#          /i biểu thị bỏ qua chữ hoa/thường, "ai", "AI", "Ai" đều khớp
 #
-#    💡 不懂正则？问 AI：
-#       "帮我写一个正则表达式，精确匹配英文单词'AI'（不匹配 MAIL 中的 AI），
-#        忽略大小写，格式要求：/正则/i => 显示名称"
+#    💡 Không hiểu regex? Hỏi AI:
+#       "Giúp tôi viết một biểu thức chính quy, khớp chính xác từ tiếng Anh 'AI' (không khớp AI trong MAIL),
+#        bỏ qua chữ hoa/thường, yêu cầu định dạng: /regex/i => tên hiển thị"
 #
 #
-# 6. 排除特定内容
+# 6. Loại trừ nội dung cụ thể
 #    ────────────────────
-#    [苹果公司]
-#    苹果
-#    !水果
-#    !果园
+#    [Công ty Apple]
+#    Apple
+#    !Trái cây
+#    !Vườn cây
 #
-#    效果：匹配"苹果"但排除包含"水果"或"果园"的新闻
-#    说明：! 开头的词表示"排除"
+#    Hiệu quả: Khớp "Apple" nhưng loại trừ tin tức chứa "Trái cây" hoặc "Vườn cây"
+#    Giải thích: Từ bắt đầu bằng ! biểu thị "loại trừ"
 #
 #
-# 7. 限制显示条数
+# 7. Giới hạn số lượng hiển thị
 #    ────────────────────
-#    [科技新闻]
-#    科技
+#    [Tin công nghệ]
+#    Công nghệ
 #    @5
 #
-#    效果：最多显示 5 条匹配的新闻
-#    说明：@数字 表示限制条数
+#    Hiệu quả: Hiển thị tối đa 5 tin tức khớp
+#    Giải thích: @số biểu thị giới hạn số lượng
 #
 #
-# 8. 必须同时包含多个词
+# 8. Bắt buộc phải chứa nhiều từ đồng thời
 #    ────────────────────
-#    +苹果
-#    +发布会
+#    +Apple
+#    +Sự kiện ra mắt
 #
-#    效果：必须同时包含"苹果"和"发布会"才匹配
-#    说明：+ 开头的词表示"必须包含"
+#    Hiệu quả: Phải chứa đồng thời "Apple" và "Sự kiện ra mắt" mới khớp
+#    Giải thích: Từ bắt đầu bằng + biểu thị "bắt buộc chứa"
 #
 # ───────────────────────────────────────────────────────────────
 
 [WORD_GROUPS]
 
 # ═══════════════════════════════════════════════════════════════
-#                         企业与品牌
+#                         Doanh nghiệp và Thương hiệu
 # ═══════════════════════════════════════════════════════════════
 
-/胖东来|于东来/ => 胖东来
+/Pang Dong Lai|Yu Dong Lai/ => Pang Dong Lai
 
-/深度求索|幻方量化|梁文锋|\bDeepSeek\b/ => DeepSeek
+/DeepSeek|High-Flyer|Liang Wenfeng|\bDeepSeek\b/ => DeepSeek
 
-/华为|任正非|余承东|鸿蒙|海思|昇腾|鲲鹏|\bHUAWEI\b|\bHarmonyOS\b|\bHiSilicon\b/ => 华为
+/Huawei|Nhậm Chính Phi|Dư Thừa Đông|HarmonyOS|HiSilicon|Ascend|Kunpeng|\bHUAWEI\b|\bHarmonyOS\b|\bHiSilicon\b/ => Huawei
 
-/比亚迪|王传福|方程豹|腾势|仰望|弗迪|刀片电池|云辇|\bBYD\b|\bDenza\b|\bYangwang\b/ => 比亚迪
+/BYD|Vương Truyền Phúc|Fang Cheng Bao|Denza|Yangwang|FinDreams|Blade Battery|DiSus|\bBYD\b|\bDenza\b|\bYangwang\b/ => BYD
 
-/大疆|汪滔|灵眸|如影|\bDJI\b|\bRoboMaster\b|\bMavic\b|\bZenmuse\b/ => 大疆
+/DJI|Vương Thao|Osmo|Ronin|\bDJI\b|\bRoboMaster\b|\bMavic\b|\bZenmuse\b/ => DJI
 
-/宇树|王兴兴|\bUnitree\b/ => 宇树机器人
+/Unitree|Vương Hưng Hưng|\bUnitree\b/ => Unitree Robotics
 
-/智元|灵犀|稚晖君|彭志辉|AgiBot/ => 智元机器人
-/众擎|EngineAI|赵同阳/ => 众擎机器人
+/AgiBot|Zhihuijun|Bành Chí Huy|AgiBot/ => AgiBot
+/EngineAI|Triệu Đồng Dương/ => EngineAI
 
-/黑神话|冯骥/ => 黑神话悟空
+/Black Myth|Hắc Thần Thoại|Phùng Ký/ => Black Myth: Wukong
 
-/影之刃零|梁其伟/ => 影之刃零
+/Phantom Blade Zero|Lương Kỳ Vĩ/ => Phantom Blade Zero
 
-/三体|流浪地球|刘慈欣|郭帆/ => 三体/流浪地球
+/Tam Thể|Lưu Lạc Địa Cầu|Lưu Từ Hân|Quách Phàm/ => Tam Thể/Lưu Lạc Địa Cầu
 
-申奥
+Đăng cai Olympic
 
-/京东|刘强东|\bJD\b|\bJingdong\b/ => 京东
+/JD|Lưu Cường Đông|\bJD\b|\bJingdong\b/ => JD
 
-/字节|张一鸣|梁汝波|抖音|\bByteDance\b|\bTikTok\b|\bDouyin\b|\bLark\b|\bCapCut\b/ => 字节跳动
+/ByteDance|Trương Nhất Minh|Lương Nhữ Ba|TikTok|Douyin|\bByteDance\b|\bTikTok\b|\bDouyin\b|\bLark\b|\bCapCut\b/ => ByteDance
 
-/腾讯|鹅厂|马化腾|微信|QQ|天美|阅文集团|微众银行|\bTencent\b|\bPony Ma\b|\bWeChat\b|\bLightSpeed\b|\bWeBank\b/ => 腾讯
+/Tencent|Mã Hóa Đằng|WeChat|QQ|TiMi|China Literature|WeBank|\bTencent\b|\bPony Ma\b|\bWeChat\b|\bLightSpeed\b|\bWeBank\b/ => Tencent
 
-/qwen|minimax|glm/ => 国产开源模型
+/qwen|minimax|glm/ => Mô hình nguồn mở nội địa
 
-/特斯拉|马斯克|\bTesla\b|\bElon Musk\b|\bCybertruck\b|\bModel 3\b|\bModel Y\b|\bModel S\b|\bModel X\b|\bFSD\b/ => 特斯拉
+/Tesla|Musk|\bTesla\b|\bElon Musk\b|\bCybertruck\b|\bModel 3\b|\bModel Y\b|\bModel S\b|\bModel X\b|\bFSD\b/ => Tesla
 
-/英伟达|黄仁勋|\bNVIDIA\b|\bGeForce\b|\bRTX\b|\bCUDA\b|\bJensen Huang\b/ => 英伟达
-/苏姿丰|锐龙|霄龙|\bAMD\b|\bRyzen\b|\bEPYC\b|\bRadeon\b|\bLisa Su\b/ => AMD
+/NVIDIA|Jensen Huang|Huỳnh Nhân Huân|\bNVIDIA\b|\bGeForce\b|\bRTX\b|\bCUDA\b|\bJensen Huang\b/ => NVIDIA
+/AMD|Lisa Su|Ryzen|EPYC|\bAMD\b|\bRyzen\b|\bEPYC\b|\bRadeon\b|\bLisa Su\b/ => AMD
 
-/微软|\bMicrosoft\b|\bWindows\b|\bAzure\b|\bSatya Nadella\b|\bCopilot\b/ => 微软
-/谷歌|皮查伊|安卓|油管|\bGoogle\b|\bAlphabet\b|\bAndroid\b|\bChrome\b|\bYouTube\b|\bGemini\b|\bDeepMind\b|\bWaymo\b/ => 谷歌
-/库克|\biPhone\b|\biPad\b|\bMacBook\b|\biOS\b|\bVision Pro\b|\bAirPods\b|\bApple\b|\bTim Cook\b/ => 苹果
+/Microsoft|\bMicrosoft\b|\bWindows\b|\bAzure\b|\bSatya Nadella\b|\bCopilot\b/ => Microsoft
+/Google|Pichai|Android|YouTube|\bGoogle\b|\bAlphabet\b|\bAndroid\b|\bChrome\b|\bYouTube\b|\bGemini\b|\bDeepMind\b|\bWaymo\b/ => Google
+/Cook|\biPhone\b|\biPad\b|\bMacBook\b|\biOS\b|\bVision Pro\b|\bAirPods\b|\bApple\b|\bTim Cook\b/ => Apple
 
 /\bOpenAI\b|\bChatGPT\b|\bSora\b|\bDALL-E\b|\bSam Altman\b|\bGreg Brockman\b/ => OpenAI
 /\bAnthropic\b|\bClaude\b|\bDario Amodei\b/ => Claude
 
 
 # ═══════════════════════════════════════════════════════════════
-#                         国家与地区
+#                         Quốc gia và Khu vực
 # ═══════════════════════════════════════════════════════════════
 
-[中国]
-国产
-中国
+[Trung Quốc]
+Trung Quốc
 
-[东亚]
-日本
-朝鲜
-韩国
+[Đông Á]
+Nhật Bản
+Triều Tiên
+Hàn Quốc
 
-[北美]
-美国
-加拿大
+[Bắc Mỹ]
+Mỹ
+Canada
 
-[西欧]
-法国
-英国
+[Tây Âu]
+Pháp
+Anh
 
-/俄罗斯|俄国/ => 俄罗斯
+/Nga|Liên Bang Nga/ => Nga
 
-印度
+Ấn Độ
 
+[Việt Nam]
+Nội địa
+Việt Nam
 
 # ═══════════════════════════════════════════════════════════════
-#                         科技领域
+#                         Lĩnh vực Công nghệ
 # ═══════════════════════════════════════════════════════════════
 
-[AI 相关]
+[AI Liên quan]
 /(?<![a-zA-Z])ai(?![a-zA-Z])/
-人工智能
+Trí tuệ nhân tạo
 
-[芯片]
-芯片
-光刻机
-半导体
+[Chip]
+Chip
+Máy quang khắc
+Bán dẫn
 
-/水电|雅鲁藏布江/ => 水电
-/光伏|太阳能/ => 光伏
-核能
-能源
+/Thủy điện/ => Thủy điện
+/Điện mặt trời|Năng lượng mặt trời/ => Điện mặt trời
+Năng lượng hạt nhân
+Năng lượng
 
-/自动驾驶|无人驾驶|智驾/ => 自动驾驶
+/Tự lái|Xe tự lái/ => Xe tự lái
 
-机器人
-/机械狗|四足/ => 机器狗
-具身智能
+Robot
+/Chó robot|Robot bốn chân/ => Chó robot
+Embodied AI
 
-/月球|登月|火星|宇宙|飞船|航天|空间站|卫星/ => 航天
+/Mặt trăng|Sao hỏa|Vũ trụ|Tàu vũ trụ|Hàng không vũ trụ|Trạm không gian|Vệ tinh/ => Hàng không vũ trụ
 
-# 前沿科技
-量子
-脑机
-基因
+# Công nghệ tiên phong
+Lượng tử
+Giao diện não máy
+Gen
 
-# 产业政策
-生产力
+# Chính sách công nghiệp
+Năng suất
+
+# ═══════════════════════════════════════════════════════════════
+#                         Tai nạn giao thông
+# ═══════════════════════════════════════════════════════════════
+
+/Tai nạn giao thông|ôtô cháy|xe cháy|va chạm xe|Tông xe|Lật xe|tai nạn liên hoàn/ => Tai nạn giao thông
+
